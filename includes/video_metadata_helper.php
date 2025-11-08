@@ -1,0 +1,95 @@
+<?php
+/**
+ * 動画メタデータ取得ヘルパー
+ * getID3ライブラリを使用して動画ファイルからメタデータを抽出
+ */
+
+require_once __DIR__ . '/getid3/getid3.php';
+
+/**
+ * 動画ファイルからメタデータを取得
+ * @param string $filePath 動画ファイルのパス
+ * @return array メタデータ配列
+ */
+function getVideoMetadata($filePath) {
+    $metadata = [
+        'datetime' => null,
+        'latitude' => null,
+        'longitude' => null,
+        'location_name' => null,
+        'camera_make' => null,
+        'camera_model' => null,
+        'duration' => null,
+        'width' => null,
+        'height' => null
+    ];
+
+    try {
+        // getID3インスタンスを作成
+        $getID3 = new getID3();
+        $getID3->option_md5_data = false;
+        $getID3->option_md5_data_source = false;
+        $getID3->encoding = 'UTF-8';
+
+        // ファイル情報を解析
+        $fileInfo = $getID3->analyze($filePath);
+
+        // エラーチェック
+        if (isset($fileInfo['error'])) {
+            error_log('getID3 error: ' . implode(', ', $fileInfo['error']));
+            return $metadata;
+        }
+
+        // QuickTime/MOVファイルの場合
+        if (isset($fileInfo['quicktime'])) {
+            // 作成日時
+            if (isset($fileInfo['quicktime']['time']['create_time'])) {
+                $metadata['datetime'] = date('Y-m-d H:i:s', $fileInfo['quicktime']['time']['create_time']);
+            }
+
+            // GPS情報（QuickTimeのメタデータから）
+            if (isset($fileInfo['quicktime']['gps_latitude']) && isset($fileInfo['quicktime']['gps_longitude'])) {
+                $metadata['latitude'] = $fileInfo['quicktime']['gps_latitude'];
+                $metadata['longitude'] = $fileInfo['quicktime']['gps_longitude'];
+            }
+
+            // カメラ情報
+            if (isset($fileInfo['quicktime']['camera']['make'])) {
+                $metadata['camera_make'] = $fileInfo['quicktime']['camera']['make'];
+            }
+            if (isset($fileInfo['quicktime']['camera']['model'])) {
+                $metadata['camera_model'] = $fileInfo['quicktime']['camera']['model'];
+            }
+        }
+
+        // 動画情報
+        if (isset($fileInfo['playtime_seconds'])) {
+            $metadata['duration'] = $fileInfo['playtime_seconds'];
+        }
+
+        if (isset($fileInfo['video']['resolution_x'])) {
+            $metadata['width'] = $fileInfo['video']['resolution_x'];
+        }
+
+        if (isset($fileInfo['video']['resolution_y'])) {
+            $metadata['height'] = $fileInfo['video']['resolution_y'];
+        }
+
+        // 日時が取得できなかった場合、ファイルの変更日時を使用
+        if (!$metadata['datetime']) {
+            $fileModTime = filemtime($filePath);
+            if ($fileModTime) {
+                $metadata['datetime'] = date('Y-m-d H:i:s', $fileModTime);
+            }
+        }
+
+        // デバッグ用：取得したメタデータをログに出力
+        error_log('Video metadata extracted: ' . json_encode($metadata));
+
+    } catch (Exception $e) {
+        error_log('Video metadata extraction error: ' . $e->getMessage());
+    }
+
+    return $metadata;
+}
+?>

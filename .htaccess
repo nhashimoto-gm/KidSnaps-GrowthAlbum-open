@@ -1,0 +1,88 @@
+# KidSnaps Growth Album - Apache Configuration
+
+# セキュリティ設定
+Options -Indexes
+
+# ディレクトリリスティングを無効化
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# サーバー情報の非表示
+ServerSignature Off
+
+# ファイルアクセス制限
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# PHP設定ファイルへのアクセス禁止
+<FilesMatch "(config|database)\.php$">
+    Require all denied
+</FilesMatch>
+
+# SQLファイルへのアクセス禁止
+<FilesMatch "\.sql$">
+    Require all denied
+</FilesMatch>
+
+# ログファイルへのアクセス禁止
+<FilesMatch "\.log$">
+    Require all denied
+</FilesMatch>
+
+# バックアップファイルへのアクセス禁止
+<FilesMatch "\.(bak|backup|old|orig|save|swp)$">
+    Require all denied
+</FilesMatch>
+
+# PHP設定（サーバー環境に応じて調整）
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 50M
+    php_value post_max_size 50M
+    php_value max_execution_time 300
+    php_value memory_limit 256M
+    php_flag display_errors Off
+    php_flag log_errors On
+</IfModule>
+
+# MIME タイプ設定
+<IfModule mod_mime.c>
+    AddType video/mp4 .mp4
+    AddType video/quicktime .mov
+    AddType video/x-msvideo .avi
+    AddType image/webp .webp
+</IfModule>
+
+# Gzip圧縮
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# ブラウザキャッシュ設定
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType video/mp4 "access plus 1 month"
+    ExpiresByType video/quicktime "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# セキュリティヘッダー
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# URLリライト（オプション）
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+</IfModule>

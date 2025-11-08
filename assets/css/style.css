@@ -1,0 +1,844 @@
+/**
+ * KidSnaps Growth Album - カスタムスタイルシート
+ * Bootstrap 5をベースにしたレスポンシブデザイン
+ */
+
+/* ===== 全体設定 ===== */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --info-color: #0dcaf0;
+    --warning-color: #ffc107;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+}
+
+/* ===== ダーク/ライトモードテーマ ===== */
+/* ライトモード（デフォルト） */
+:root[data-theme="light"] {
+    --bg-primary: #f5f7fa;
+    --bg-secondary: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
+    --card-bg: #ffffff;
+    --navbar-bg: #0d6efd;
+    --footer-bg: #212529;
+    --modal-bg: #ffffff;
+    --input-bg: #ffffff;
+    --rotation-control-bg: rgba(255, 255, 255, 0.95);
+    --rotation-control-border: rgba(0, 0, 0, 0.2);
+    --rotation-btn-bg: #0d6efd;
+    --rotation-btn-hover: #0b5ed7;
+    --rotation-btn-text: #ffffff;
+}
+
+/* ダークモード */
+:root[data-theme="dark"] {
+    --bg-primary: #1a1d29;
+    --bg-secondary: #25293a;
+    --text-primary: #e8eaed;
+    --text-secondary: #b8bec4;
+    --border-color: #3c4043;
+    --card-bg: #2d3142;
+    --navbar-bg: #1a1d29;
+    --footer-bg: #13151f;
+    --modal-bg: #25293a;
+    --input-bg: #2d3142;
+    --rotation-control-bg: rgba(40, 45, 60, 0.95);
+    --rotation-control-border: rgba(255, 255, 255, 0.3);
+    --rotation-btn-bg: #4a9eff;
+    --rotation-btn-hover: #6bb0ff;
+    --rotation-btn-text: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+main {
+    flex: 1;
+}
+
+/* ===== ナビゲーションバー ===== */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: var(--navbar-bg) !important;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    transition: transform 0.2s;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+:root[data-theme="dark"] .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* テーマ切り替えボタン */
+.theme-toggle-btn,
+.lang-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 0.25rem;
+}
+
+.theme-toggle-btn:hover,
+.lang-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* ===== メディアカード ===== */
+.media-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.media-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.card {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.card-img-wrapper {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background-color: var(--bg-secondary);
+}
+
+.media-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.media-card:hover .media-thumbnail.rotate-0 {
+    transform: rotate(0deg) scale(1.1);
+}
+
+.media-card:hover .media-thumbnail.rotate-90 {
+    transform: rotate(90deg) scale(1.1);
+}
+
+.media-card:hover .media-thumbnail.rotate-180 {
+    transform: rotate(180deg) scale(1.1);
+}
+
+.media-card:hover .media-thumbnail.rotate-270 {
+    transform: rotate(270deg) scale(1.1);
+}
+
+.media-type-badge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== ビデオサムネイル ===== */
+.video-thumbnail-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+.video-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.media-card:hover .video-play-overlay {
+    font-size: 4.5rem;
+    color: rgba(255, 255, 255, 1);
+}
+
+/* ===== カードボディ ===== */
+.card-body {
+    padding: 1rem;
+}
+
+.card-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.card-text {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* ===== ボタン ===== */
+.btn {
+    transition: all 0.2s ease;
+    border-radius: 6px;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-group .btn {
+    border-radius: 0;
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+/* ===== モーダル ===== */
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background-color: var(--modal-bg);
+    color: var(--text-primary);
+}
+
+.modal-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem;
+    background-color: var(--modal-bg);
+}
+
+.modal-body {
+    padding: 1.5rem;
+    background-color: var(--modal-bg);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    background-color: var(--modal-bg);
+}
+
+/* モーダルボディのoverflow制御 */
+#viewModal .modal-body {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 70vh;
+    min-height: 300px;
+    position: relative;
+}
+
+/* 回転コントロール - 画像/動画の右下に配置 */
+.media-rotation-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    display: flex;
+    gap: 0.75rem;
+    background: var(--rotation-control-bg);
+    padding: 0.9rem 1.1rem;
+    border-radius: 12px;
+    border: 2px solid var(--rotation-control-border);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.media-rotation-controls .btn {
+    background: var(--rotation-btn-bg);
+    border: 2px solid var(--rotation-btn-bg);
+    color: var(--rotation-btn-text);
+    padding: 0.75rem 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+.media-rotation-controls .btn:hover {
+    background: var(--rotation-btn-hover);
+    border-color: var(--rotation-btn-hover);
+    transform: scale(1.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.media-rotation-controls .btn:active {
+    transform: scale(1.1);
+}
+
+/* ビューアーモーダルの画像/動画 */
+#viewModal .modal-body img,
+#viewModal .modal-body video {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+/* 動画の背景を明るい色にしてUIに馴染ませる */
+#viewModal .modal-body video {
+    background-color: var(--bg-secondary);
+    object-fit: contain;
+}
+
+/* 回転可能なメディア要素 */
+.rotatable-media {
+    transform-origin: center center;
+}
+
+/* 回転アニメーション */
+.rotate-0 {
+    transform: rotate(0deg);
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+}
+
+.rotate-180 {
+    transform: rotate(180deg);
+}
+
+.rotate-270 {
+    transform: rotate(270deg);
+}
+
+/* 90度/270度回転時のサイズ調整（はみ出し防止） */
+#viewModal .modal-body .rotatable-media.rotate-90,
+#viewModal .modal-body .rotatable-media.rotate-270 {
+    max-width: 70vh;
+    max-height: 70vh;
+}
+
+/* 回転時の余白を最小化 */
+#viewModal .modal-body .rotatable-media.rotate-90 video,
+#viewModal .modal-body .rotatable-media.rotate-270 video {
+    width: auto;
+    height: auto;
+    max-width: 70vh;
+    max-height: 50vh;
+}
+
+/* サムネイル画像の回転 */
+.media-thumbnail.rotate-0 {
+    transform: rotate(0deg);
+}
+
+.media-thumbnail.rotate-90 {
+    transform: rotate(90deg);
+}
+
+.media-thumbnail.rotate-180 {
+    transform: rotate(180deg);
+}
+
+.media-thumbnail.rotate-270 {
+    transform: rotate(270deg);
+}
+
+/* 動画進行状況インジケーター */
+#videoProgressIndicator {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+#videoProgressIndicator .progress {
+    height: 12px;
+    background-color: var(--input-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: height 0.2s ease;
+}
+
+#videoProgressIndicator .progress:hover {
+    height: 14px;
+}
+
+#videoProgressIndicator .progress-bar {
+    transition: width 0.3s ease;
+    background: linear-gradient(90deg, var(--primary-color), #0a58ca);
+}
+
+#videoProgressIndicator small {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+#videoProgressIndicator i {
+    color: var(--primary-color);
+}
+
+/* カスタム動画コントロールボタン - 視認性向上 */
+#videoPlayPauseBtn {
+    min-width: 50px;
+    padding: 0.5rem 0.75rem;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--primary-color), #0a58ca);
+    border: none;
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+    color: #ffffff;
+}
+
+#videoPlayPauseBtn i {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+#videoMuteBtn {
+    min-width: 50px;
+    padding: 0.5rem 0.75rem;
+    font-size: 1.1rem;
+}
+
+#videoPlayPauseBtn:hover,
+#videoMuteBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+}
+
+/* ===== フォーム ===== */
+.form-control,
+.form-select {
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.form-text {
+    color: var(--text-secondary);
+}
+
+/* ===== アラート ===== */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== プログレスバー ===== */
+.progress {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    transition: width 0.3s ease;
+}
+
+/* ===== フッター ===== */
+footer {
+    margin-top: auto;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    background-color: var(--footer-bg) !important;
+}
+
+/* ===== カードフィルター効果 ===== */
+.card {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== レスポンシブ調整 ===== */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .display-5 {
+        font-size: 2rem;
+    }
+
+    .card-img-wrapper {
+        height: 180px;
+    }
+
+    .btn-lg {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .modal-xl {
+        max-width: 95%;
+    }
+
+    /* モバイルでのモーダル高さ調整 */
+    #viewModal .modal-body {
+        max-height: 60vh;
+        min-height: 200px;
+    }
+
+    #viewModal .modal-body img,
+    #viewModal .modal-body video {
+        max-height: 60vh;
+    }
+
+    /* モバイルでの回転時サイズ調整 */
+    #viewModal .modal-body .rotatable-media.rotate-90 video,
+    #viewModal .modal-body .rotatable-media.rotate-270 video {
+        max-height: 40vh;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-img-wrapper {
+        height: 150px;
+    }
+
+    .video-play-overlay {
+        font-size: 3rem;
+    }
+
+    .media-card:hover .video-play-overlay {
+        font-size: 3.2rem;
+    }
+}
+
+/* ===== ローディングアニメーション ===== */
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+/* ===== カスタムスクロールバー（Webkit系ブラウザ） ===== */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ダークモード用スクロールバー */
+:root[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #1a1d29;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 5px;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+/* ===== ユーティリティクラス ===== */
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.shadow-hover {
+    transition: box-shadow 0.3s ease;
+}
+
+.shadow-hover:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ===== 印刷用スタイル ===== */
+@media print {
+    .navbar,
+    .btn,
+    footer,
+    .modal {
+        display: none !important;
+    }
+
+    .card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
+/* ===== ダークモードでのテキストコントラスト改善 ===== */
+:root[data-theme="dark"] .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+:root[data-theme="dark"] small {
+    color: var(--text-secondary);
+}
+
+:root[data-theme="dark"] .card-text small.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+:root[data-theme="dark"] .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* モーダルフッターのテキスト */
+:root[data-theme="dark"] .modal-footer small {
+    color: var(--text-secondary) !important;
+}
+
+/* アラートのテキスト */
+:root[data-theme="dark"] .alert {
+    color: var(--text-primary);
+}
+
+/* フォームテキストの改善 */
+:root[data-theme="dark"] .form-text {
+    color: var(--text-secondary) !important;
+}
+
+/* プレースホルダーの色をダークモードで調整 */
+:root[data-theme="dark"] .form-control::placeholder {
+    color: var(--text-primary);
+    opacity: 1;
+}
+
+:root[data-theme="dark"] .form-control::-webkit-input-placeholder {
+    color: var(--text-primary);
+    opacity: 1;
+}
+
+:root[data-theme="dark"] .form-control::-moz-placeholder {
+    color: var(--text-primary);
+    opacity: 1;
+}
+
+:root[data-theme="dark"] .form-control:-ms-input-placeholder {
+    color: var(--text-primary);
+    opacity: 1;
+}
+
+/* ===== カスタムファイル入力 ===== */
+.custom-file-input-wrapper {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.custom-file-input {
+    display: none; /* 完全に非表示 */
+}
+
+.custom-file-label {
+    display: block;
+    padding: 0.75rem 1rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.custom-file-label:hover {
+    border-color: var(--primary-color);
+    background-color: var(--bg-secondary);
+}
+
+.custom-file-label:active {
+    transform: scale(0.98);
+}
+
+/* ファイル選択時のスタイル */
+.custom-file-label.file-selected {
+    border-style: solid;
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.custom-file-label i {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+/* ===== ファイルリスト表示 ===== */
+.file-list-display {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.file-list-display strong {
+    color: var(--text-primary);
+}
+
+.file-list-display ul {
+    color: var(--text-secondary);
+}
+
+.file-list-display ul li {
+    margin-bottom: 0.25rem;
+}
+
+/* ダークモードでの視認性向上 */
+:root[data-theme="dark"] .file-list-display {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme="dark"] .file-list-display strong {
+    color: var(--text-primary);
+}
+
+:root[data-theme="dark"] .file-list-display ul {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== EXIF自動生成タイトルのスタイル ===== */
+.auto-generated-title {
+    font-style: italic;
+    color: #6c757d;
+}
+
+:root[data-theme="dark"] .auto-generated-title {
+    color: #9ca3af; /* より明るいグレー - ダークモード用 */
+}
+
+/* ===== アラートのダークモード対応 ===== */
+:root[data-theme="dark"] .alert-success {
+    background-color: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #86efac;
+}
+
+:root[data-theme="dark"] .alert-danger {
+    background-color: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+}
+
+:root[data-theme="dark"] .alert-info {
+    background-color: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #93c5fd;
+}
+
+:root[data-theme="dark"] .alert-warning {
+    background-color: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+    color: #fcd34d;
+}
+
+/* ===== バッジのダークモード対応 ===== */
+:root[data-theme="dark"] .badge.bg-info {
+    background-color: #0891b2 !important;
+    color: #ffffff;
+}
+
+:root[data-theme="dark"] .badge.bg-danger {
+    background-color: #dc2626 !important;
+    color: #ffffff;
+}
+
+:root[data-theme="dark"] .badge.bg-success {
+    background-color: #059669 !important;
+    color: #ffffff;
+}
+
+:root[data-theme="dark"] .badge.bg-secondary {
+    background-color: #4b5563 !important;
+    color: #e5e7eb;
+}
