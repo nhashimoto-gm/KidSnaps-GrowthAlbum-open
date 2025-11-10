@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(if [ -d \"ffmpeg\" ])",
+      "Bash(then echo \"ffmpegディレクトリの内容:\")",
+      "Bash(else echo \"ffmpegディレクトリが存在しません\")",
+      "Bash(fi)",
+      "Bash(php regenerate_thumbnails.php:*)",
+      "Bash(git mv:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(tree:*)",
+      "Bash(php:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,128 @@
+# KidSnaps Growth Album - Apache Configuration
+
+# セキュリティ設定
+Options -Indexes
+
+# ディレクトリリスティングを無効化
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# サーバー情報の非表示
+# ServerSignature Off  # Lolipop共有サーバーでは使用不可
+
+# ファイルアクセス制限
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# PHP設定ファイルへのアクセス禁止
+<FilesMatch "(config|database)\.php$">
+    Require all denied
+</FilesMatch>
+
+# SQLファイルへのアクセス禁止
+<FilesMatch "\.sql$">
+    Require all denied
+</FilesMatch>
+
+# ログファイルへのアクセス禁止
+<FilesMatch "\.log$">
+    Require all denied
+</FilesMatch>
+
+# バックアップファイルへのアクセス禁止
+<FilesMatch "\.(bak|backup|old|orig|save|swp)$">
+    Require all denied
+</FilesMatch>
+
+# PHP設定（LiteSpeed版PHP 8.3対応）
+# LolipopのLiteSpeed版では.htaccessでPHP設定が可能です
+<IfModule mod_lsapi.c>
+    php_value upload_max_filesize 100M
+    php_value post_max_size 100M
+    php_value max_execution_time 600
+    php_value max_input_time 600
+    php_value memory_limit 256M
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_value error_log uploads/temp/php_error.log
+</IfModule>
+
+# LiteSpeed以外の環境用フォールバック（.user.iniが使用されます）
+
+# MIME タイプ設定
+<IfModule mod_mime.c>
+    AddType video/mp4 .mp4
+    AddType video/quicktime .mov
+    AddType video/x-msvideo .avi
+    AddType image/webp .webp
+</IfModule>
+
+# Gzip圧縮
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# ブラウザキャッシュ設定（最適化版）
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # 画像ファイル（1年間キャッシュ - 画像は変更されにくいため）
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+
+    # 動画ファイル（1年間キャッシュ）
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/quicktime "access plus 1 year"
+    ExpiresByType video/x-msvideo "access plus 1 year"
+
+    # CSS/JavaScriptファイル（1ヶ月）
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+
+    # HTMLファイル（キャッシュなし）
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Cache-Controlヘッダー（より詳細な制御）
+<IfModule mod_headers.c>
+    # 画像・動画ファイルに強力なキャッシュ設定
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|mp4|mov|avi)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+
+    # サムネイルディレクトリに特別な設定
+    <FilesMatch "^uploads/thumbnails/.*\.(jpg|jpeg|png|gif|webp)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+
+    # CSS/JavaScriptファイル
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "max-age=2592000, public"
+    </FilesMatch>
+
+    # HTMLファイル（キャッシュしない）
+    <FilesMatch "\.(html|php)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# セキュリティヘッダー
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# URLリライト（オプション）
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+</IfModule>

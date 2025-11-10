@@ -1,0 +1,64 @@
+# KidSnaps Growth Album - Git Ignore Settings
+
+# アップロードされたメディアファイル
+uploads/images/*
+uploads/videos/*
+!uploads/images/.gitkeep
+!uploads/videos/.gitkeep
+
+# 環境設定ファイル
+.env
+.env.local
+.env.*.local
+.env_db
+
+# IDEとエディタ
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# ログファイル
+*.log
+logs/*
+!logs/.gitkeep
+
+# 一時ファイル
+*.tmp
+*.temp
+*.cache
+
+# OSファイル
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# PHPキャッシュ
+*.php~
+.phpunit.result.cache
+
+# Composer
+vendor/
+composer.lock
+
+# Node modules（将来的な使用のため）
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# バックアップファイル
+*.bak
+*.backup
+*~
+
+# セッションファイル
+sessions/
+
+# その他
+.htaccess.local
