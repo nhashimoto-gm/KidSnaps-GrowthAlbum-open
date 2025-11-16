@@ -1,0 +1,16 @@
+{
+  "name": "kidsnaps-growth-album",
+  "version": "1.0.0",
+  "description": "Performance optimization tools",
+  "scripts": {
+    "minify:js": "terser assets/js/script.js -c -m --source-map -o assets/js/script.min.js",
+    "minify:css": "csso assets/css/style.css -o assets/css/style.min.css",
+    "minify:all": "npm run minify:js && npm run minify:css",
+    "watch:js": "terser assets/js/script.js -c -m --source-map -o assets/js/script.min.js --watch",
+    "watch:css": "csso assets/css/style.css -o assets/css/style.min.css --watch"
+  },
+  "devDependencies": {
+    "terser": "^5.19.0",
+    "csso-cli": "^4.0.2"
+  }
+}

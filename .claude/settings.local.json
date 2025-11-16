@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(if [ -d \"ffmpeg\" ])",
+      "Bash(then echo \"ffmpegディレクトリの内容:\")",
+      "Bash(else echo \"ffmpegディレクトリが存在しません\")",
+      "Bash(fi)",
+      "Bash(php regenerate_thumbnails.php:*)",
+      "Bash(git mv:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(tree:*)",
+      "Bash(php:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run minify:all:*)",
+      "Bash(if [ -d \"uploads/temp/chunked_uploads\" ])",
+      "Bash(then ls -la uploads/temp/chunked_uploads/)",
+      "Bash(else echo \"chunked_uploadsディレクトリが存在しません\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

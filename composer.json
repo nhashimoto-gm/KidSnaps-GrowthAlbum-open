@@ -1,0 +1,15 @@
+{
+    "name": "kidsnaps/growth-album",
+    "description": "A family photo album application for tracking children's growth",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "fileeye/pel": "^0.9.12"
+    },
+    "autoload": {
+        "files": [
+            "includes/exif_helper.php",
+            "includes/exif_writer.php"
+        ]
+    }
+}
